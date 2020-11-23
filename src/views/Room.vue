@@ -173,6 +173,7 @@ export default {
             })
           }
         })
+        console.log("🚀 ~ file: Room.vue ~ line 176 ~ setTimeout ~ event.candidate", event.candidate)
       }
       pc.onaddstream = function(e) {
         const child = document.createElement('video')
@@ -199,6 +200,7 @@ export default {
       let pc = peerConn[name]
       pc.createOffer(
         offer => {
+          console.log("🚀 ~ file: Room.vue ~ line 201 ~ sendOffer ~ offer", offer)
           this.send({
             event: 'offer',
             offer: offer,
@@ -211,6 +213,8 @@ export default {
           alert('Error when creating an offer')
         }
       )
+        console.log("🚀 ~ file: Room.vue ~ line 215 ~ sendOffer ~ offer", offer)
+        console.log("🚀 ~ file: Room.vue ~ line 215 ~ sendOffer ~ offer", offer)
     },
     handleOffer(data) {
       let pc = peerConn[data.name]
