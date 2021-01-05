@@ -162,10 +162,12 @@ export default {
       }
     },
     createPeerConnection(name) {
+      console.log("🚀 ~ 第二步 ~ createPeerConnection ~ name", name)
       let pc = (peerConn[name] = new RTCPeerConnection({ iceServers: [config.iceServer] }))
       pc.onicecandidate = event => {
         setTimeout(() => {
           if (event.candidate) {
+            console.log("🚀 ~ 最后 ~ event.candidate", event.candidate)
             this.send({
               event: 'candidate',
               candidate: event.candidate,
@@ -173,7 +175,6 @@ export default {
             })
           }
         })
-        console.log("🚀 ~ file: Room.vue ~ line 176 ~ setTimeout ~ event.candidate", event.candidate)
       }
       pc.onaddstream = function(e) {
         const child = document.createElement('video')
@@ -197,6 +198,7 @@ export default {
       }
     },
     sendOffer(name) {
+      console.log("🚀 ~ 第三步 ~ createOffer ~ name", name)
       let pc = peerConn[name]
       pc.createOffer(
         offer => {
@@ -213,10 +215,9 @@ export default {
           alert('Error when creating an offer')
         }
       )
-        console.log("🚀 ~ file: Room.vue ~ line 215 ~ sendOffer ~ offer", offer)
-        console.log("🚀 ~ file: Room.vue ~ line 215 ~ sendOffer ~ offer", offer)
     },
     handleOffer(data) {
+      console.log("🚀 ~ 第四步 ~ createAnswer ~ data", data)
       let pc = peerConn[data.name]
       pc.setRemoteDescription(new RTCSessionDescription(data.offer))
       // Create an answer to an offer
@@ -239,9 +240,11 @@ export default {
       console.log(data.message)
     },
     handleAnswer(data) {
+      console.log("🚀 ~ 第四步 ~ handleAnswer ~ data", data)
       peerConn[data.name].setRemoteDescription(new RTCSessionDescription(data.answer))
     },
     handleCandidate(data) {
+      console.log("🚀 ~ 最后 ~ handleCandidate ~ data", data)
       peerConn[data.name].addIceCandidate(new RTCIceCandidate(data.candidate))
     },
     handleLeave(data) {
